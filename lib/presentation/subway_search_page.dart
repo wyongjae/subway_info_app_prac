@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:subway_info_app_prac/domain/subway.dart';
@@ -12,11 +14,18 @@ class SubwaySearchPage extends StatefulWidget {
 }
 
 class _SubwaySearchPageState extends State<SubwaySearchPage> {
+  Timer? _debounce;
   final _controller = TextEditingController();
+
+  _onSearchChanged(String query) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {});
+  }
 
   @override
   void dispose() {
     super.dispose();
+    _debounce?.cancel();
     _controller.dispose();
   }
 
@@ -49,6 +58,7 @@ class _SubwaySearchPageState extends State<SubwaySearchPage> {
                   Expanded(
                     child: TextField(
                       controller: _controller,
+                      onChanged: _onSearchChanged,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
