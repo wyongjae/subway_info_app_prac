@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:subway_info_app_prac/data/subway_api.dart';
+import 'package:subway_info_app_prac/domain/subway_view_model.dart';
 import 'package:subway_info_app_prac/presentation/subway_search_page.dart';
 
 void main() {
@@ -8,15 +11,19 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SubwayViewModel(SubwayApi())),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const SubwaySearchPage(),
       ),
-      home: SubwaySearchPage(),
     );
   }
 }
