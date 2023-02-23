@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:subway_info_app_prac/domain/subway.dart';
+import 'package:subway_info_app_prac/presentation/components/subway.dart';
 
 class SubwayApi {
   Future<List<Subway>> fetch(String query) async {
