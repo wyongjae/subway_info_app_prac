@@ -1,23 +1,23 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:subway_info_app_prac/data/subway_api.dart';
+import 'package:subway_info_app_prac/data/repository/subway_api_repository.dart';
 import 'package:subway_info_app_prac/presentation/components/subway.dart';
 
 class SubwaySearchViewModel with ChangeNotifier {
   Timer? _debounce;
-  final SubwayApi api;
+  final SubwayApiRepository repository;
+
+  SubwaySearchViewModel(this.repository);
 
   bool isLoading = false;
   List<Subway> subwayList = [];
-
-  SubwaySearchViewModel(this.api);
 
   Future<void> fetchData(String query) async {
     isLoading = true;
     notifyListeners();
 
-    subwayList = await api.fetch(query);
+    subwayList = await repository.fetch(query);
     isLoading = false;
     notifyListeners();
   }
